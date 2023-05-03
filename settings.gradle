@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+
+    }
+
+}
+
+
+rootProject.name = "tinker.lifinn.colorclock"
+include ':app'

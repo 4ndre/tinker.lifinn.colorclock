@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/timeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6:30"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+
+    <ImageView
+        android:id="@+id/deleteColorTime"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/delete_20px"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp" />
+
+    <Button
+        android:id="@+id/fgColorButton"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:backgroundTint="#FF0000"
+        android:layout_toLeftOf="@id/deleteColorTime"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp" />
+
+    <Button
+        android:id="@+id/bgColorButton"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:backgroundTint="#00FF00"
+        android:layout_toLeftOf="@id/fgColorButton"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp" />
+
+</RelativeLayout>
