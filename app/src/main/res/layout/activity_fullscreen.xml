@@ -81,15 +81,14 @@
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/countdown_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
                 android:contentDescription="@string/fab_countdown"
-                app:srcCompat="@drawable/stopwatch"/>
+                app:srcCompat="@drawable/stopwatch"/>-->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/main_settings_fab"
                 android:layout_width="wrap_content"
