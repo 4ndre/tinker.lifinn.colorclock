@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +13,6 @@ import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import tinker.lifinn.colorclock.databinding.ActivityFullscreenBinding
@@ -25,12 +23,7 @@ import java.util.*
 
 
 import android.os.PowerManager
-import android.util.DisplayMetrics
-import android.util.TypedValue
-import android.widget.Button
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-import tinker.lifinn.colorclock.Settings
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -42,9 +35,6 @@ class FullscreenActivity : AppCompatActivity() {
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
     private val hideHandler = Handler(Looper.myLooper()!!)
-
-    private val currentColor:Int=0xFFFFFFFF.toInt()
-    private var colorNext:Int=0xFFFFFFFF.toInt()
 
     private lateinit var wakeLock: PowerManager.WakeLock
 
@@ -160,6 +150,8 @@ class FullscreenActivity : AppCompatActivity() {
         val fontSize = sharedPref.getInt("fontSize", 7)
         val fontName = sharedPref.getString("font", "Roboto")
         val edgeLighting=sharedPref.getBoolean("edgeLighting", false)
+        val militaryTime=sharedPref.getBoolean("militaryTime", true)
+        val showAMPM=sharedPref.getBoolean("showAMPM", false)
         //set visibility of blackLayer to edgeLighting
         val blackLayer=findViewById<View>(R.id.blackLayer)
         if(edgeLighting){
@@ -182,7 +174,11 @@ class FullscreenActivity : AppCompatActivity() {
         timeHandler.post(object : Runnable {
             override fun run() {
                 val calendar = Calendar.getInstance()
-                val currentTime = SimpleDateFormat("HH:mm").format(calendar.time)
+
+                // Determine time format based on militaryTime setting
+                val timeFormat = if (militaryTime) "HH:mm" else if (showAMPM) "h:mm a" else "h:mm"
+                val currentTime = SimpleDateFormat(timeFormat, Locale.getDefault()).format(calendar.time)
+
                 val currentHour=SimpleDateFormat("HH").format(calendar.time).toInt()
                 val currentMinute=SimpleDateFormat("mm").format(calendar.time).toInt()
                 val currentSecond=SimpleDateFormat("ss").format(calendar.time).toLong()

@@ -30,12 +30,56 @@ class Settings : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        val sharedPref = getSharedPreferences("kcc_settings", Context.MODE_PRIVATE)
         val edgeLightingToggle = findViewById<Switch>(R.id.edgeLightingToggle)
         edgeLightingToggle.setOnCheckedChangeListener { _, isChecked ->
-            val sharedPref = getSharedPreferences("kcc_settings", Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putBoolean("edgeLighting", isChecked)
             editor.apply()
+        }
+
+        val switchMilitaryTime = findViewById<Switch>(R.id.switch_military_time)
+        val switchShowAMPM = findViewById<Switch>(R.id.switch_show_am_pm)
+
+        // Load initial states
+        val isMilitaryTime = sharedPref.getBoolean("militaryTime", false)
+        val isShowAMPM = sharedPref.getBoolean("showAMPM", true)
+
+        switchMilitaryTime.isChecked = isMilitaryTime
+        switchShowAMPM.isChecked = isShowAMPM
+
+        // Disable AM/PM switch if Military Time is enabled
+        switchShowAMPM.isEnabled = !isMilitaryTime
+        if (isMilitaryTime) {
+            switchShowAMPM.isChecked = false
+        }
+
+        // Listener for Military Time switch
+        switchMilitaryTime.setOnCheckedChangeListener { _, isChecked ->
+            with(sharedPref.edit()) {
+                putBoolean("militaryTime", isChecked)
+                apply()
+            }
+
+            // Disable or enable AM/PM switch based on Military Time state
+            switchShowAMPM.isEnabled = !isChecked
+            if (isChecked) {
+                switchShowAMPM.isChecked = false
+                with(sharedPref.edit()) {
+                    putBoolean("showAMPM", false)
+                    apply()
+                }
+            }
+        }
+
+        // Listener for Show AM/PM switch
+        switchShowAMPM.setOnCheckedChangeListener { _, isChecked ->
+            if (switchShowAMPM.isEnabled) {
+                with(sharedPref.edit()) {
+                    putBoolean("showAMPM", isChecked)
+                    apply()
+                }
+            }
         }
 
 
@@ -79,6 +123,12 @@ class Settings : AppCompatActivity() {
         fontSizeValue.text = fontSize.toString()
         val edgeLightingToggle = findViewById<Switch>(R.id.edgeLightingToggle)
         edgeLightingToggle.isChecked = edgeLighting
+
+        val switchMilitaryTime = findViewById<Switch>(R.id.switch_military_time)
+        switchMilitaryTime.isChecked = sharedPref.getBoolean("militaryTime", true)
+
+        val switchShowAMPM = findViewById<Switch>(R.id.switch_show_am_pm)
+        switchShowAMPM.isChecked = sharedPref.getBoolean("showAMPM", false)
     }
 
     fun showColorTimeSettings(view: View) {
